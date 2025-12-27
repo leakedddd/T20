@@ -226,6 +226,74 @@
     color: #111;
 }
 
+/* ====== Payment Icons ====== */
+.payment-icons {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px;
+    justify-content: center;
+}
+
+.payment-icons i {
+    font-size: 32px;
+    color: #4A5C6A;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.payment-icons .fa-cc-visa {
+    color: #1434CB;
+}
+
+.payment-icons .fa-cc-mastercard {
+    color: #EB001B;
+}
+
+.payment-icons .fa-cc-amex {
+    color: #006FCF;
+}
+
+.payment-icons .fa-credit-card {
+    color: #6b7280;
+}
+
+.payment-icons i:hover {
+    transform: scale(1.2) translateY(-3px);
+    filter: brightness(1.2);
+}
+
+/* ====== Card Input Special ====== */
+.card-input {
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+/* ====== Button with Icon ====== */
+.btn-primary i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* ====== Section Divider ====== */
+.section-divider {
+    border: none;
+    border-top: 2px solid #e5e7eb;
+    margin: 24px 0;
+    opacity: 0.5;
+}
+
+/* ====== Form Row Enhancement ====== */
+.form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+}
+
 /* ====== Responsive ====== */
 @media (max-width: 960px) {
     .checkout-container {
@@ -234,5 +302,13 @@
 
     .checkout-sidebar {
         position: static;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-icons {
+        flex-wrap: wrap;
     }
 }

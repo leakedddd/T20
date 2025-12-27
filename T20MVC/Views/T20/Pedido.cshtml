@@ -39,13 +39,61 @@
 
             <div class="form-grid">
                 <div class="form-field">
-                    <label>Dirección *</label>
-                    <input asp-for="direccion" class="input" required />
+                    <label>Dirección de envío *</label>
+                    <input asp-for="direccion" class="input" required placeholder="Ej: Av. Lima 123, San Isidro" />
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- MÉTODO DE PAGO -->
+                <h3 style="margin: 20px 0 16px 0; font-weight: 700;">Método de Pago</h3>
+
+                <div class="payment-icons">
+                    <i class="fab fa-cc-visa" title="Visa"></i>
+                    <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                    <i class="fab fa-cc-amex" title="American Express"></i>
+                    <i class="fas fa-credit-card" title="Otras tarjetas"></i>
+                </div>
+
+                <div class="form-field">
+                    <label>Número de tarjeta</label>
+                    <input type="text"
+                           class="input card-input"
+                           placeholder="1234 5678 9012 3456"
+                           maxlength="19"
+                           id="cardNumber" />
+                </div>
+
+                <div class="form-field">
+                    <label>Nombre del titular</label>
+                    <input type="text"
+                           class="input"
+                           placeholder="NOMBRE APELLIDO"
+                           style="text-transform: uppercase;" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>Fecha de expiración</label>
+                        <input type="text"
+                               class="input"
+                               placeholder="MM/AA"
+                               maxlength="5"
+                               id="cardExpiry" />
+                    </div>
+                    <div class="form-field">
+                        <label>CVV</label>
+                        <input type="text"
+                               class="input"
+                               placeholder="123"
+                               maxlength="4"
+                               id="cardCVV" />
+                    </div>
                 </div>
 
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">
-                        Confirmar Pedido
+                        <i class="fas fa-lock"></i> Confirmar Pedido
                     </button>
                 </div>
             </div>
@@ -96,3 +144,28 @@
         </div>
     </aside>
 </div>
+
+@section scripts {
+<script>
+    // Formateo automático de número de tarjeta (solo estético)
+    document.getElementById('cardNumber')?.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\s/g, '');
+        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+        e.target.value = formattedValue;
+    });
+
+    // Formateo de fecha de expiración MM/AA
+    document.getElementById('cardExpiry')?.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        e.target.value = value;
+    });
+
+    // Solo números en CVV
+    document.getElementById('cardCVV')?.addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/\D/g, '');
+    });
+</script>
+}
