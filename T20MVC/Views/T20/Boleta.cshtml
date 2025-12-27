@@ -1,39 +1,302 @@
-﻿@model T20MVC.Models.BoletaDto
+@model T20MVC.Models.BoletaDto
 @{
     Layout = null;
 }
 
-
-<h2>Boleta - @Model.Id</h2>
-<p><b>Fecha:</b> @Model.Fecha</p>
-<p><b>Cliente:</b> @Model.ClienteNombre @Model.ClienteApellido</p>
-<p><b>Correo:</b> @Model.Correo</p>
-<p><b>Dirección:</b> @Model.Direccion</p>
-
-<hr />
-
-<table style="width:100%; border-collapse:collapse;" border="1" cellpadding="6">
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Cant.</th>
-            <th>Precio</th>
-            <th>Importe</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var it in Model.Detalle)
-        {
-            <tr>
-                <td>@it.Nombre</td>
-                <td>@it.Cantidad</td>
-                <td>S/ @it.Precio.ToString("0.00")</td>
-                <td>S/ @it.Importe.ToString("0.00")</td>
-            </tr>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Boleta @Model.Id</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    </tbody>
-</table>
 
-<h3 style="text-align:right; margin-top:20px;">
-    Total: S/ @Model.Total.ToString("0.00")
-</h3>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .invoice-container {
+            background: white;
+            padding: 50px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #4A5C6A;
+        }
+
+        .company-info h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #4A5C6A;
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+        }
+
+        .company-info p {
+            color: #6b7280;
+            font-size: 14px;
+            margin: 3px 0;
+        }
+
+        .invoice-meta {
+            text-align: right;
+        }
+
+        .invoice-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 8px;
+        }
+
+        .invoice-date {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* Client Info */
+        .client-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .client-section h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #4A5C6A;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .client-info p {
+            margin: 6px 0;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .client-info strong {
+            color: #111;
+            font-weight: 600;
+            display: inline-block;
+            width: 100px;
+        }
+
+        /* Table */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        .invoice-table thead {
+            background: linear-gradient(135deg, #4A5C6A 0%, #111 100%);
+            color: white;
+        }
+
+        .invoice-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .invoice-table th:last-child,
+        .invoice-table td:last-child {
+            text-align: right;
+        }
+
+        .invoice-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .invoice-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .product-name {
+            font-weight: 500;
+            color: #111;
+        }
+
+        /* Total Section */
+        .total-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: flex-end;
+            margin: 12px 0;
+        }
+
+        .total-label {
+            width: 150px;
+            text-align: right;
+            padding-right: 30px;
+            font-size: 15px;
+            color: #6b7280;
+        }
+
+        .total-value {
+            width: 150px;
+            text-align: right;
+            font-size: 15px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .grand-total {
+            background: linear-gradient(135deg, #4A5C6A 0%, #111 100%);
+            color: white;
+            padding: 20px 0;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        .grand-total .total-label,
+        .grand-total .total-value {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .invoice-footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .thank-you {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4A5C6A;
+            margin-bottom: 15px;
+        }
+
+        .footer-info {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.8;
+        }
+
+        .footer-contact {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .footer-contact strong {
+            color: #4A5C6A;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-info">
+                <h1>T-20</h1>
+                <p>Av. Dos de Mayo 1498</p>
+                <p>Lima, Perú</p>
+                <p>support@t20store.com</p>
+            </div>
+            <div class="invoice-meta">
+                <div class="invoice-number">BOLETA N° @Model.Id</div>
+                <div class="invoice-date">@Model.Fecha.ToString("dd/MM/yyyy HH:mm")</div>
+            </div>
+        </div>
+
+        <!-- Client Information -->
+        <div class="client-section">
+            <h3>Información del Cliente</h3>
+            <div class="client-info">
+                <p><strong>Nombre:</strong> @Model.ClienteNombre @Model.ClienteApellido</p>
+                <p><strong>Correo:</strong> @Model.Correo</p>
+                <p><strong>Dirección:</strong> @Model.Direccion</p>
+            </div>
+        </div>
+
+        <!-- Items Table -->
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th style="text-align: center;">Cantidad</th>
+                    <th style="text-align: right;">Precio Unit.</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Detalle)
+                {
+                    <tr>
+                        <td class="product-name">@item.Nombre</td>
+                        <td style="text-align: center;">@item.Cantidad</td>
+                        <td style="text-align: right;">S/ @item.Precio.ToString("N2")</td>
+                        <td style="text-align: right; font-weight: 600;">S/ @item.Importe.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Total Section -->
+        <div class="total-section">
+            <div class="total-row">
+                <div class="total-label">Subtotal:</div>
+                <div class="total-value">S/ @Model.Total.ToString("N2")</div>
+            </div>
+            <div class="total-row">
+                <div class="total-label">Envío:</div>
+                <div class="total-value">Gratis</div>
+            </div>
+            <div class="total-row grand-total">
+                <div class="total-label">TOTAL:</div>
+                <div class="total-value">S/ @Model.Total.ToString("N2")</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="thank-you">¡Gracias por tu compra!</div>
+            <div class="footer-info">
+                Tu pedido será procesado y enviado a la dirección indicada.<br />
+                Recibirás un correo de confirmación con el seguimiento de tu envío.
+            </div>
+            <div class="footer-contact">
+                <strong>¿Necesitas ayuda?</strong><br />
+                Contáctanos: support@t20store.com | Av. Dos de Mayo 1498, Lima
+            </div>
+        </div>
+    </div>
+</body>
+</html>
