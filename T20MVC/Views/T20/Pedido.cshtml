@@ -30,6 +30,13 @@
         <form asp-action="Pedido" method="post">
             @Html.AntiForgeryToken()
 
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 12px 20px; border-radius: 4px; margin-bottom: 20px; border-left: 4px solid #dc3545;">
+                    <strong>⚠️ Error:</strong> @ViewBag.Error
+                </div>
+            }
+
             <div class="form-grid">
                 <div class="form-field">
                     <label>Dirección *</label>
