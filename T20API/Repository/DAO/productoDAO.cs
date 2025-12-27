@@ -63,7 +63,27 @@ namespace T20API.Repository.DAO
             return lista;
         }
 
-        public Producto Buscar(int id) => Listar().FirstOrDefault(x => x.id_producto == id);
+        public Producto Buscar(int id)
+        {
+            using var cn = new SqlConnection(_cn);
+            cn.Open();
+
+            // Consulta directa en lugar de cargar todos los productos
+            using var cmd = new SqlCommand("SELECT id_producto, nombre, precio, id_categoria, stock FROM producto WHERE id_producto=@id", cn);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            using var dr = cmd.ExecuteReader();
+            if (!dr.Read()) return null;
+
+            return new Producto
+            {
+                id_producto = dr.GetInt32(0),
+                nombre = dr.GetString(1),
+                precio = dr.GetDecimal(2),
+                categoria = dr.GetInt32(3),
+                stock = dr.GetInt32(4)
+            };
+        }
 
 
     }

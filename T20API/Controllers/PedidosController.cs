@@ -19,8 +19,19 @@ namespace T20API.Controllers
             if (string.IsNullOrWhiteSpace(req.Direccion)) return BadRequest("direccion requerida");
             if (req.Items == null || req.Items.Count == 0) return BadRequest("items requeridos");
 
-            var id = _repo.CrearPedido(req);
-            return Ok(new PedidoCreateResponse { idPedido = id });
+            try
+            {
+                var id = _repo.CrearPedido(req);
+                return Ok(new PedidoCreateResponse { idPedido = id });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error al procesar el pedido", detalle = ex.Message });
+            }
         }
     }
 }

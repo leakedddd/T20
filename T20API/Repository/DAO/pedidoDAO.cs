@@ -23,6 +23,15 @@ namespace T20API.Repository.DAO
 
             try
             {
+                // Validar que el cliente existe
+                using (var cmdCliente = new SqlCommand("SELECT COUNT(*) FROM cliente WHERE id_cliente=@id", cn, tr))
+                {
+                    cmdCliente.Parameters.AddWithValue("@id", req.IdCliente);
+                    int clienteExiste = (int)cmdCliente.ExecuteScalar();
+                    if (clienteExiste == 0)
+                        throw new InvalidOperationException($"El cliente {req.IdCliente} no existe.");
+                }
+
                 // 1) crear cabecera pedido (SP que ya tienes)
                 using var cmd = new SqlCommand("usp_add_pedido", cn, tr);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -42,16 +51,36 @@ namespace T20API.Repository.DAO
                 // 2) insertar detalle: precio sale de BD
                 foreach (var it in req.Items)
                 {
-                    if (it.Cantidad < 1) throw new Exception("Cantidad inválida.");
+                    if (it.Cantidad < 1) throw new InvalidOperationException("Cantidad inválida.");
 
-                    // trae precio actual desde BD (bloqueado por la transacción)
+                    // trae precio actual y stock desde BD (bloqueado por la transacción)
                     decimal precio;
-                    using (var c2 = new SqlCommand("SELECT precio FROM producto WHERE id_producto=@id", cn, tr))
+                    int stockDisponible;
+                    string nombreProducto;
+
+                    using (var c2 = new SqlCommand("SELECT precio, stock, nombre FROM producto WHERE id_producto=@id", cn, tr))
                     {
                         c2.Parameters.AddWithValue("@id", it.IdProducto);
-                        var obj = c2.ExecuteScalar();
-                        if (obj == null) throw new Exception($"Producto {it.IdProducto} no existe.");
-                        precio = Convert.ToDecimal(obj);
+                        using var reader = c2.ExecuteReader();
+
+                        if (!reader.Read())
+                            throw new InvalidOperationException($"El producto {it.IdProducto} no existe.");
+
+                        precio = reader.GetDecimal(0);
+                        stockDisponible = reader.GetInt32(1);
+                        nombreProducto = reader.GetString(2);
+                    }
+
+                    // Validar stock suficiente
+                    if (stockDisponible < it.Cantidad)
+                        throw new InvalidOperationException($"Stock insuficiente para '{nombreProducto}'. Disponible: {stockDisponible}, solicitado: {it.Cantidad}");
+
+                    // Descontar stock
+                    using (var c3 = new SqlCommand("UPDATE producto SET stock = stock - @cantidad WHERE id_producto=@id", cn, tr))
+                    {
+                        c3.Parameters.AddWithValue("@cantidad", it.Cantidad);
+                        c3.Parameters.AddWithValue("@id", it.IdProducto);
+                        c3.ExecuteNonQuery();
                     }
 
                     // usa tu SP de detalle
