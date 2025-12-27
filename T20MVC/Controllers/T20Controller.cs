@@ -181,7 +181,18 @@ namespace T20MVC.Controllers
 
             if (!resp.IsSuccessStatusCode)
             {
-                ViewBag.Error = "No se pudo registrar el pedido.";
+                // Leer el mensaje de error específico de la API
+                var errorJson = await resp.Content.ReadAsStringAsync();
+                try
+                {
+                    var errorObj = JsonConvert.DeserializeObject<dynamic>(errorJson);
+                    ViewBag.Error = errorObj?.message?.ToString() ?? "No se pudo registrar el pedido.";
+                }
+                catch
+                {
+                    ViewBag.Error = "No se pudo registrar el pedido.";
+                }
+
                 ViewBag.carrito = carrito;
                 return View(vm);
             }
