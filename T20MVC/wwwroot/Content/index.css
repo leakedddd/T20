@@ -154,7 +154,8 @@
     color: #4A5C6A;
 }
 
-.price-cart button {
+.price-cart button,
+.btn-add {
     background: linear-gradient(135deg, #4A5C6A 0%, #111 100%);
     border-radius: 50%;
     border: none;
@@ -168,12 +169,14 @@
     justify-content: center;
 }
 
-.price-cart button:hover {
+.price-cart button:hover,
+.btn-add:hover {
     transform: scale(1.15) rotate(10deg);
     box-shadow: 0 6px 20px rgba(74, 92, 106, 0.5);
 }
 
-.price-cart button:active {
+.price-cart button:active,
+.btn-add:active {
     transform: scale(0.95);
 }
 
@@ -181,6 +184,10 @@
     font-size: 20px;
     color: white;
     pointer-events: none; /* Permite que los clicks pasen al botón */
+}
+
+.cart-icon {
+    pointer-events: none; /* Asegura que el icono no bloquee clicks */
 }
 
 #cart {
