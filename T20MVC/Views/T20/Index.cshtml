@@ -41,10 +41,18 @@
 
 @section scripts{
     <script>
+  console.log('Script cargado - jQuery disponible:', typeof $ !== 'undefined');
+  console.log('Botones encontrados:', $('.btn-add').length);
+
   // Evento click para todos los botones con clase .btn-add
-  $(document).on('click', '.btn-add', function () {
+  $(document).on('click', '.btn-add', function (e) {
+      console.log('Click detectado en botón!');
+      e.preventDefault();
+      e.stopPropagation();
+
       // Obtener el id del producto desde el atributo data-id
       var id = $(this).data('id');
+      console.log('ID del producto:', id);
 
       // Llamar al método Select del controlador T20 (por POST)
       $.ajax({
@@ -52,9 +60,10 @@
           type: 'POST',
           data: { id: id, qty: 1 },             // Enviamos id y cantidad
           success: function (response) {
+              console.log('Respuesta del servidor:', response);
               if (response.ok) {
                   // Actualiza el contador en el icono del carrito
-                  $('#contador-productos').text(response.count);                  
+                  $('#contador-productos').text(response.count);
                   const icon = $('.fa-cart-shopping');
                   icon.addClass('added');
                   setTimeout(() => icon.removeClass('added'), 400);
@@ -62,10 +71,16 @@
                   alert("No se pudo agregar el producto.");
               }
           },
-          error: function () {
+          error: function (xhr, status, error) {
+              console.error('Error:', status, error);
               alert("Error al conectar con el servidor.");
           }
       });
+  });
+
+  // Test directo de click
+  $('.btn-add').on('click', function() {
+      console.log('Click directo funcionó!');
   });
     </script>
 
