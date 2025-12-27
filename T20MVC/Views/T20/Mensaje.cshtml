@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Gracias por tu compra";
+    var idPedido = ViewBag.idpedido as string;  // puede ser null si algo falló
+}
+
+<div class="checkout-summary">
+    <h1>¡Gracias por tu compra!</h1>
+    <p>        
+        @if (!string.IsNullOrEmpty(idPedido))
+        {
+            <br />
+            <span>Se ha registrado el pedido <strong>@idPedido</strong> satisfactoriamente.</span>
+        }
+    </p>
+
+    <div class="buttons">
+        @Html.ActionLink(
+            "Volver a la tienda",
+            "Index",
+            "T20",
+            null,
+            new { @class = "btn-primary"}
+        )
+
+        @if (!string.IsNullOrEmpty(ViewBag.idpedido as string))
+        {
+            <a class="btn-primary" href="@Url.Action("Boleta", "T20", new { id = ViewBag.idpedido })">
+                Descargar boleta (PDF)
+            </a>
+        }
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<T20MVC.Models.FaqDto>
+
+<link rel="stylesheet" href="~/Content/faq.css" />
+
+<div class="faq-container">
+    <h2>FAQs</h2>
+
+    @foreach (var f in Model)
+    {
+        <div class="faq-item">
+            <button type="button" class="faq-question">
+                @f.Question
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">@f.Answer</div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.faq-question').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const item = btn.closest('.faq-item');
+                    const answer = item.querySelector('.faq-answer');
+                    const icon = item.querySelector('.faq-icon');
+
+                    document.querySelectorAll('.faq-item .faq-answer.active').forEach(function (a) {
+                        if (a !== answer) {
+                            a.classList.remove('active');
+                            a.style.maxHeight = null;
+                            a.closest('.faq-item').querySelector('.faq-icon')?.classList.remove('open');
+                        }
+                    });
+
+                    const open = answer.classList.toggle('active');
+                    icon.classList.toggle('open', open);
+
+                    if (open) answer.style.maxHeight = answer.scrollHeight + 'px';
+                    else answer.style.maxHeight = null;
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,238 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&family=Rubik+Vinyl&family=Rufina:wght@400;700&display=swap');
+
+.checkout-header {
+    text-align: center;
+    margin: 30px 0 10px;
+}
+
+    .checkout-header h1 {
+        font-size: 36px;
+        font-weight: 800;
+        letter-spacing: .5px;
+        margin: 0;
+        font-family: "Roboto Slab", serif;
+    }
+
+.checkout-kpi {
+    display: inline-flex;
+    gap: 14px;
+    align-items: baseline;
+    margin-top: 6px;
+}
+
+    .checkout-kpi .kpi-items {
+        color: #6b7280;
+        font-weight: 600;
+    }
+
+    .checkout-kpi .kpi-total {
+        color: #111;
+        font-weight: 700;
+    }
+
+
+.checkout-container {
+    display: grid;
+    grid-template-columns: 1fr 360px; 
+    gap: 40px;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    padding: 0 16px;
+}
+
+.checkout-main h3 {
+    margin: 20px 0 12px;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+
+.section-divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 16px 0;
+}
+
+/* ====== Form ====== */
+.form-grid {
+    max-width: 680px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+    .form-field label {
+        font-size: 14px;
+        color: #374151;
+    }
+
+.input {
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 14px;
+    outline: none;
+}
+
+    .input:focus {
+        border-color: #111;
+    }
+
+.form-actions {
+    margin-top: 18px;
+}
+
+.btn-primary {
+    background-color: #4A5C6A;
+    color: #fff;
+    border: 1px solid #000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    padding: 14px 18px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+    .btn-primary:hover {
+        background: #111;
+        color: white;
+    }
+
+/* ====== Sidebar ====== */
+.checkout-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+.summary-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 16px;
+    background: #fff;
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;    
+}
+
+    .summary-header a {
+        text-decoration: underline;
+        color: #000;
+        padding: 3px;
+        transition: color 0.2s ease, transform 0.1s ease;
+    }
+
+        .summary-header a:hover {
+            background-color: #4A5C6A;
+            transform: scale(1.2);
+            color: white;
+            text-decoration: none;
+        }
+
+
+    .summary-header h3 {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: .3px;
+        font-family: "Roboto Slab", serif;
+    }
+
+
+.summary-edit {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+}
+
+    .summary-edit:hover {
+        text-decoration: underline;
+    }
+
+.summary-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin: 10px 0;
+}
+
+    .summary-table td {
+        padding: 0;
+    }
+
+.align-right {
+    text-align: right;
+}
+
+.summary-total td {
+    font-weight: 700;
+}
+
+/* Mini listado de ítems */
+.mini-items {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 12px 0 0;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mini-item {
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    gap: 12px;
+}
+
+    .mini-item img {
+        width: 76px;
+        height: 76px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #eee;
+    }
+
+.mini-info {
+    display: grid;
+    gap: 2px;
+}
+
+.mini-name {
+    font-size: 14px;
+    color: #111;
+}
+
+.mini-meta {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.mini-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 960px) {
+    .checkout-container {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-sidebar {
+        position: static;
+    }
+}

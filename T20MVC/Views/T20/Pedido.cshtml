@@ -1,0 +1,91 @@
+﻿@model T20MVC.Models.PedidoVM
+@using T20MVC.Models
+
+@{
+    ViewBag.Title = "Pedido";
+
+    var carrito = ViewBag.carrito as List<RegistroDto> ?? new List<RegistroDto>();
+    int items = carrito.Sum(x => x.cantidad);
+    decimal subtotal = carrito.Sum(x => x.precio * x.cantidad);
+    string label = items == 1 ? "producto" : "productos";
+}
+
+<link rel="stylesheet" href="~/Content/home.css" />
+<link rel="stylesheet" href="~/Content/pedido.css" />
+
+<div class="checkout-header">
+    <h1>Pagar</h1>
+    <div class="checkout-kpi">
+        <span class="kpi-items">(@items @label)</span>
+        <span class="kpi-total">S/ @subtotal.ToString("N2")</span>
+    </div>
+</div>
+
+<div class="checkout-container">
+
+    <!-- FORMULARIO -->
+    <section class="checkout-main">
+        <h3>Contacto</h3>
+
+        <form asp-action="Pedido" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-grid">
+                <div class="form-field">
+                    <label>Dirección *</label>
+                    <input asp-for="direccion" class="input" required />
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        Confirmar Pedido
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!-- RESUMEN -->
+    <aside class="checkout-sidebar">
+        <div class="summary-card">
+            <div class="summary-header">
+                <h3>Tu Pedido</h3>
+                <a class="summary-edit" href='@Url.Action("Carrito", "T20")'>EDITAR</a>
+            </div>
+
+            <table class="summary-table">
+                <tbody>
+                    <tr>
+                        <td>@items @label</td>
+                        <td class="align-right">S/ @subtotal.ToString("N2")</td>
+                    </tr>
+                    <tr>
+                        <td>Envío</td>
+                        <td class="align-right">Gratis</td>
+                    </tr>
+                    <tr class="summary-total">
+                        <td>Total</td>
+                        <td class="align-right">S/ @subtotal.ToString("N2")</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ul class="mini-items">
+                @foreach (var it in carrito)
+                {
+                    var img = Url.Content($"~/Images/Shop/{it.codigo}.jpg");
+                    <li class="mini-item">
+                        <img src="@img" alt="@it.descripcion" />
+                        <div class="mini-info">
+                            <div class="mini-name">@it.descripcion</div>
+                            <div class="mini-meta">Cantidad: @it.cantidad</div>
+                            <div class="mini-price">
+                                S/ @(it.precio.ToString("N2"))
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </aside>
+</div>

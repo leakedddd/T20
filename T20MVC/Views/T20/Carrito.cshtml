@@ -1,0 +1,176 @@
+﻿@model IEnumerable<T20MVC.Models.RegistroDto>
+<link href="~/Content/Carrito.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+@{
+    ViewBag.Title = "Carrito";
+}
+
+<div class="cart-title">
+    <h1>Carrito de Compras</h1>
+</div>
+
+<div class="carrito-body">
+    <div class="selected-products">
+        @foreach (var p in Model)
+        {
+            var img = Url.Content($"~/Images/Shop/{p.codigo}.jpg");
+            <div class="product-cart" data-id="@p.codigo" data-price="@p.precio.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                <button class="close-btn" title="Eliminar del carrito"
+                        onclick="location.href='@Url.Action("Delete", "T20", new { id = p.codigo })'">
+                    ×
+                </button>
+                <div class="image">
+                    <img class="product-cart-image" src="@img" alt="@p.descripcion" />
+                </div>
+
+                <div class="product-info">
+                    <h3>@p.descripcion</h3>
+                    <div class="info-row">
+                        <span class="price">S/ @p.precio.ToString("0.00")</span>
+                    </div>
+
+                    <div class="qty-row">
+                        <button type="button" class="qty-btn minus" aria-label="Disminuir">−</button>
+                        <input type="number" class="qty-input" min="1" value="@p.cantidad" />
+                        <button type="button" class="qty-btn plus" aria-label="Aumentar">+</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="resumen">
+        <h3>Resumen del Pedido</h3>
+
+        <table class="summary-table">
+            <tbody>
+                <tr>
+                    <td><span id="summary-items">0</span></td>
+                    <td class="align-right">S/ <span id="summary-subtotal">0.00</span></td>
+                </tr>
+                <tr>
+                    <td>Envío</td>
+                    <td class="align-right">Gratis</td>
+                </tr>
+                <tr class="summary-total">
+                    <td>Total</td>
+                    <td class="align-right">S/ <span id="summary-total">0.00</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a class="cta-pay" href="@Url.Action("Pedido", "T20")">
+            IR A PAGAR <span aria-hidden="true">→</span>
+        </a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Inicializa precios de cada línea y el resumen al cargar
+    document.querySelectorAll('.product-cart').forEach(updatePrice);
+    updateTotal();
+});
+
+document.addEventListener('click', async (e) => {
+    // + / - botones
+    const btn = e.target.closest('.qty-btn');
+    if (!btn) return;
+
+    const card = btn.closest('.product-cart');
+    const id = card.dataset.id;
+    const input = card.querySelector('.qty-input');
+    let qty = parseInt(input.value || '1', 10);
+
+    qty = btn.classList.contains('plus') ? qty + 1 : Math.max(1, qty - 1);
+    input.value = qty;
+
+    // Actualiza UI
+    updatePrice(card);
+    updateTotal();
+
+    // Persiste en servidor
+    await updateQty(id, qty);
+});
+
+document.addEventListener('change', async (e) => {
+    if (!e.target.matches('.qty-input')) return;
+
+    const input = e.target;
+    const card = input.closest('.product-cart');
+    const id = card.dataset.id;
+
+    let qty = parseInt(input.value || '1', 10);
+    if (isNaN(qty) || qty < 1) qty = 1;
+    input.value = qty;
+
+    // Actualiza UI
+    updatePrice(card);
+    updateTotal();
+
+    // Persiste en servidor
+    await updateQty(id, qty);
+});
+
+async function updateQty(id, qty) {
+    try {
+        const res = await fetch('@Url.Action("UpdateQty","T20")?id=' + id + '&qty=' + qty, {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error('No se pudo actualizar');
+        // No recargamos: ya actualizamos UI arriba
+    } catch (err) {
+        console.error(err);
+        alert('No se pudo actualizar la cantidad.');
+    }
+}
+
+// --- Helpers UI ---
+function updatePrice(card) {
+    const unit = safeNumber(card.dataset.price);
+    const qty  = safeInt(card.querySelector('.qty-input')?.value, 1);
+    const priceEl = card.querySelector('.price');
+    const total = (unit * qty).toFixed(2);
+    if (priceEl) priceEl.textContent = `S/ ${total}`;
+}
+
+    function updateTotal() {
+        let items = 0, sum = 0;
+
+        document.querySelectorAll('.product-cart').forEach(card => {
+            const unit = safeNumber(card.dataset.price);
+            const qty = safeInt(card.querySelector('.qty-input')?.value, 1);
+            items += qty;
+            sum += unit * qty;
+        });
+
+        // 🔹 Actualiza el resumen con pluralización dinámica
+        const itemsEl = document.getElementById('summary-items');
+        const subEl = document.getElementById('summary-subtotal');
+        const totEl = document.getElementById('summary-total');
+
+        if (itemsEl) {
+            const label = items === 1 ? 'producto' : 'productos';
+            itemsEl.textContent = `${items} ${label}`;
+        }
+        if (subEl) subEl.textContent = sum.toFixed(2);
+        if (totEl) totEl.textContent = sum.toFixed(2);
+    }
+
+
+// Convierte seguro a número (acepta "49,90" y "49.90")
+function safeNumber(v) {
+    if (typeof v === 'string') v = v.replace(',', '.');
+    const n = parseFloat(v);
+    return isNaN(n) ? 0 : n;
+}
+
+function safeInt(v, def = 1) {
+    const n = parseInt(v, 10);
+    return isNaN(n) || n < 1 ? def : n;
+}
+</script>
+

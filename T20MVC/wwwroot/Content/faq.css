@@ -1,0 +1,56 @@
+﻿.faq-container {
+    width: 60%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+    .faq-container h2 {
+        font-size: 70px;
+        font-weight: bold;
+    }
+
+.faq-item {
+    border-bottom: 1px solid #000;
+    padding: 10px 0;
+}
+
+    .faq-item:last-child {
+        border-bottom: none;
+    }
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.faq-icon {
+    transition: transform .3s ease;
+    font-size: 30px;
+}
+
+    .faq-icon.open {
+        transform: rotate(45deg);
+    }
+
+.faq-answer {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .3s ease-out, opacity .3s ease-in-out;
+}
+
+    .faq-answer.active {
+        /* el JS pone max-height al alto real; este bloque deja solo la opacidad */
+        opacity: 1;
+        font-size: 16px;
+        color: #555;
+    }

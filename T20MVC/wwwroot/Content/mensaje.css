@@ -1,0 +1,21 @@
+﻿.checkout-summary {
+    text-align: center;
+    margin: 80px auto;
+}
+
+    .checkout-summary h1 {
+        font-size: 2.2rem; 
+        font-weight:700;
+    }
+
+    .checkout-summary p {
+        color:#6b7280; 
+        font-size:1.05rem; 
+        margin-top:10px;
+    }
+.buttons {
+    margin-top: 26px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}

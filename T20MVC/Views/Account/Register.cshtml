@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Crear cuenta";
+}
+
+<link href="~/Content/Login.css" rel="stylesheet" />
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>Crear cuenta</h2>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "login-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div>
+                <label>Nombre</label>
+                <input name="nombre" type="text" required />
+            </div>
+
+            <div>
+                <label>Apellido</label>
+                <input name="apellido" type="text" required />
+            </div>
+
+            <div>
+                <label>Teléfono</label>
+                <input name="telefono" type="text" />
+            </div>
+
+            <div>
+                <label>Correo electrónico</label>
+                <input name="correo" type="email" required />
+            </div>
+
+            <div>
+                <label>Contraseña</label>
+                <input name="clave" type="password" required />
+            </div>
+
+            <button type="submit" class="btn-login">Crear cuenta</button>
+
+            <div class="login-links">
+                @Html.ActionLink("¿Ya tienes cuenta? Inicia sesión", "Login", "Account")
+            </div>
+        }
+    </div>
+</div>

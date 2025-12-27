@@ -1,0 +1,159 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Vinyl&display=swap');
+
+nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;   
+    padding: 40px 80px; 
+    position: relative;
+}
+
+.logo {
+    display: flex;   
+    justify-content: center;
+}
+
+    .logo h1 {
+        font-family: "Rubik Vinyl", serif;
+        font-size: 50px;
+        font-weight: bold;
+    }
+
+.options {
+    display: flex;
+    justify-content: center;
+}
+
+    .options ul {
+        list-style: none;
+        gap: 57px;
+        display: flex;
+        justify-content: center;
+        padding: 0px;
+    }
+
+        .options ul li {
+            font-size: 22px;
+            padding-top: 10px;
+        }
+
+    .options a {
+        display: block;
+        color: #11212D;
+        text-decoration: none;
+        transition: font-weight 0.3s ease, color 0.3s ease;
+    }
+
+
+    .options ul li a.active {
+        font-weight: bold;
+    }
+
+.button_slide {
+    color: #FFF;
+    border-radius: 0px;
+    padding: 4px 30px;
+    display: flex;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0 gray;
+    -webkit-transition: ease-out 0.7s;
+    -moz-transition: ease-out 0.7s;
+    transition: ease-out 0.7s;
+}
+
+.option:hover .button_slide {
+    box-shadow: inset 400px 0 0 0 gray;
+}
+
+.shop-button {
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    line-height: 1;
+    vertical-align: middle;
+    text-decoration: none; 
+    color: #0b0b0b; 
+    cursor: pointer;
+    transition: transform .7s ease-out;
+}
+
+    .shop-button:hover {
+        transform: scale(1.1);
+        color: inherit;
+    }
+
+    .shop-button i {
+        display: block;
+    }
+
+.shop {
+    display: flex;
+    width: 50%;
+   justify-content: center;   
+}
+
+.count-products {
+    position: absolute;
+    top: -20px;
+    right: -17px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shop-login {    
+    display: flex;    
+    justify-content: space-around;
+}
+
+.bag-counter {
+    position: relative;
+    display: flex;    
+}
+
+.shop-login {
+    display: flex;
+   
+}
+
+.login-area {
+    display: flex;       
+    justify-content: center;
+}
+
+.btn-login, .btn-logout {    
+    
+    text-decoration: none;
+    border: 1px solid #222;
+    padding: 8px 12px;
+    background-color: #111;
+    color: #fff;   
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+    .btn-login:hover, .btn-logout:hover {
+        background-color: #333;
+        color: white;
+    }
+
+.user-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+}

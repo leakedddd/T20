@@ -1,0 +1,39 @@
+﻿@model T20MVC.Models.BoletaDto
+@{
+    Layout = null;
+}
+
+
+<h2>Boleta - @Model.Id</h2>
+<p><b>Fecha:</b> @Model.Fecha</p>
+<p><b>Cliente:</b> @Model.ClienteNombre @Model.ClienteApellido</p>
+<p><b>Correo:</b> @Model.Correo</p>
+<p><b>Dirección:</b> @Model.Direccion</p>
+
+<hr />
+
+<table style="width:100%; border-collapse:collapse;" border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cant.</th>
+            <th>Precio</th>
+            <th>Importe</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var it in Model.Detalle)
+        {
+            <tr>
+                <td>@it.Nombre</td>
+                <td>@it.Cantidad</td>
+                <td>S/ @it.Precio.ToString("0.00")</td>
+                <td>S/ @it.Importe.ToString("0.00")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3 style="text-align:right; margin-top:20px;">
+    Total: S/ @Model.Total.ToString("0.00")
+</h3>

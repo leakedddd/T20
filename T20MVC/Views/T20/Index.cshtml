@@ -1,0 +1,72 @@
+﻿@model T20MVC.Models.ShopVM
+@{
+    ViewBag.Title = "Nuestros Productos";
+}
+
+<link rel="stylesheet" href='@Url.Content("~/Content/shop.css")' />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="shop-container">
+    <h1>Nuestros Productos</h1>
+
+    <!-- Categorías como tabs -->
+    <div class="categories">
+        @foreach (var c in Model.Categorias)
+        {
+            var active = (Model.CategoriaActivaId == c.id_categoria) ? "active" : "";
+            <a class="@active" href='@Url.Action("Index","T20", new { catId = c.id_categoria })'>@c.nombre</a>
+        }
+    </div>
+
+    <!-- Productos -->
+    <div class="product-list">
+        @foreach (var p in Model.Productos)
+        {          
+            var img = Url.Content($"/Images/Shop/{p.id_producto}.jpg");
+            <div class="product-card">
+                <img class="product-image" src="@img" alt="@p.nombre" />
+                <h3>@p.nombre</h3>
+                <div class="price-cart">
+                    <p>@p.precio.ToString("0.00")</p>
+                    <button type="button" class="btn-add" data-id="@p.id_producto">
+                        <i class="fa-solid fa-cart-plus cart-icon"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script>
+  // Evento click para todos los botones con clase .btn-add
+  $(document).on('click', '.btn-add', function () {
+      // Obtener el id del producto desde el atributo data-id
+      var id = $(this).data('id');
+
+      // Llamar al método Select del controlador T20 (por POST)
+      $.ajax({
+          url: '@Url.Action("Select", "T20")',  // Ruta al método
+          type: 'POST',
+          data: { id: id, qty: 1 },             // Enviamos id y cantidad
+          success: function (response) {
+              if (response.ok) {
+                  // Actualiza el contador en el icono del carrito
+                  $('#contador-productos').text(response.count);                  
+                  const icon = $('.fa-cart-shopping');
+                  icon.addClass('added');
+                  setTimeout(() => icon.removeClass('added'), 400);
+              } else {
+                  alert("No se pudo agregar el producto.");
+              }
+          },
+          error: function () {
+              alert("Error al conectar con el servidor.");
+          }
+      });
+  });
+    </script>
+
+}

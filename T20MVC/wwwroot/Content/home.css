@@ -1,0 +1,83 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Rufina:wght@400;700&display=swap');
+
+
+html, body {
+    margin: 0;
+}
+
+
+body {    
+    font-family: 'Poppins', sans-serif;
+    background-color: #f6f7fb;    
+    padding: 0;
+}
+
+
+.home-container { 
+    padding: 20px;
+}
+
+.explore-now {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.text {
+    width: 60%;
+    padding: 90px;
+}
+
+.image {
+    width: 40%;
+    background-size: cover;
+    background-position: center;
+}
+
+.title h1 {
+    font-size: 86px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    font-family: "Rufina", serif;
+}
+
+.description p {
+    font-size: 24px;
+    margin-bottom: 54px;
+}
+
+.button {
+    background-color: #4A5C6A;
+    color: #fff;
+    padding: 0.8rem 2.3rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .button:hover {
+        background-color: #06141B;
+        transform: scale(1.02);
+        box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    }
+
+    .button a {
+        color: #fff;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+.custom-shape {
+    width: 440px;
+    height: 570px;
+    background-color: #253745;
+    border-radius: 100px 50px 100px 50px;
+}
+
+    .custom-shape img {
+        transform: translate(12%);
+    }

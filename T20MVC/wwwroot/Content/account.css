@@ -1,0 +1,119 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Vinyl&family=Rufina:wght@400;700&display=swap');
+
+.register-box {
+    width: 900px; 
+    max-width: 95vw;    
+    
+}
+
+    .register-box h2 {
+        text-align: center;
+        margin-bottom: 22px;
+    }
+
+.register-grid {
+    display: flex;    
+    align-items: center;
+}
+
+
+.register-form-side .login-form > div {
+    margin-bottom: 2px;
+}
+
+.login-container {
+    width: 100%;
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.login-box {
+    background-color: #fff;
+    padding: 40px 45px;
+    border-radius: 10px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    width: 380px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+    .login-box:hover {
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .login-box h2 {
+        font-weight: 600;
+        font-size: 26px;
+        color: #222;
+        margin-bottom: 25px;
+    }
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+    .login-form label {
+        text-align: left;
+        font-weight: 500;
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .login-form input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: 0.2s;
+        outline: none;
+    }
+
+        .login-form input:focus {
+            border-color: #111;
+            box-shadow: 0 0 3px rgba(0,0,0,0.2);
+        }   
+
+/* === ENLACES SECUNDARIOS === */
+.login-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+    .login-links a {
+        font-size: 13px;
+        color: #222;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+        .login-links a:hover {
+            text-decoration: underline;
+        }
+
+/* === ALERTAS === */
+.alert {
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #fde2e1;
+    color: #b21c1c;
+}
+
+.alert-success {
+    background-color: #e5f9e0;
+    color: #2b7515;
+}

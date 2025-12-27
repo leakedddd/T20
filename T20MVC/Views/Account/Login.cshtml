@@ -1,0 +1,37 @@
+﻿<link href="~/Content/Login.css" rel="stylesheet" />
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>Iniciar sesión</h2>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+        @if (TempData["ok"] != null)
+        {
+            <div class="alert alert-success">@TempData["ok"]</div>
+        }
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div>
+                <label>Correo electrónico</label>
+                <input type="email" name="correo" required />
+            </div>
+
+            <div>
+                <label>Contraseña</label>
+                <input type="password" name="clave" required />
+            </div>
+
+            <button type="submit" class="btn-login">Entrar</button>
+        }
+
+        <div class="login-links">
+            @Html.ActionLink("¿No tienes cuenta? Regístrate", "Register", "Account")
+        </div>
+    </div>
+</div>

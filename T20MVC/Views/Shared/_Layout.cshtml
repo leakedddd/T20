@@ -1,0 +1,147 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    var ctrl = (ViewContext.RouteData.Values["controller"] ?? "").ToString();
+    var act = (ViewContext.RouteData.Values["action"] ?? "").ToString();
+
+    var cartCount = Context.Session.GetInt32("cartCount") ?? 0;
+    var clienteId = Context.Session.GetInt32("clienteId") ?? 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>T-20</title>
+
+    <link rel="stylesheet" href="/Content/site.css" />
+    <link rel="stylesheet" href="/Content/menu.css" />
+    <link rel="stylesheet" href="/Content/footer.css" />
+    <link rel="stylesheet" href="/Content/home.css" />
+    <link rel="stylesheet" href="/Content/index.css" />
+    <link rel="stylesheet" href="/Content/carrito.css" />
+    <link rel="stylesheet" href="/Content/pedido.css" />
+    <link rel="stylesheet" href="/Content/mensaje.css" />
+    <link rel="stylesheet" href="/Content/account.css" />
+    <link rel="stylesheet" href="/Content/faq.css" />
+
+
+    <script src="https://kit.fontawesome.com/b8489fdaa0.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <h1>T-20</h1>
+        </div>
+
+        <div class="options">
+            <ul>
+                <li class="option">
+                    <a href='@Url.Action("Home", "T20")'
+                       class="@(ctrl == "T20" && act == "Home" ? "active" : "")">
+                        Inicio
+                    </a>
+                    <div class="button_slide"></div>
+                </li>
+
+                <li class="option">
+                    <a href='@Url.Action("Index", "T20")'
+                       class="@(ctrl == "T20" && act == "Index" ? "active" : "")">
+                        Tienda
+                    </a>
+                    <div class="button_slide"></div>
+                </li>
+
+                <li class="option">
+                    <a href='@Url.Action("Help", "T20")'
+                       class="@(ctrl == "T20" && act == "Help" ? "active" : "")">
+                        Ayuda
+                    </a>
+                    <div class="button_slide"></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="shop-login">
+            <div class="shop">
+                <div class="bag-counter">
+                    <a class="shop-button" href='@Url.Action("Carrito", "T20")' aria-label="Ir al carrito">
+                        <i class="fa-solid fa-cart-shopping fa-2x"></i>
+                    </a>
+                    <div class="count-products">
+                        <span id="contador-productos">@cartCount</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-area">
+                @if (clienteId == 0)
+                {
+                    <a href='@Url.Action("Login", "Account")' class="btn-login">
+                        <i class="fa-solid fa-user"></i> Iniciar sesión
+                    </a>
+                }
+                else
+                {
+                    <a href='@Url.Action("Logout", "Account")' class="btn-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+                    </a>
+                }
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        @RenderBody()
+
+        <footer>
+            <div class="main-info">
+                <div class="quick-links">
+                    <h3>Links</h3>
+                    <a href='@Url.Action("Home", "T20")'
+                       class="@(ctrl == "T20" && act == "Home" ? "active" : "")">
+                        Inicio
+                    </a>
+                    <a href='@Url.Action("Index", "T20")'
+                       class="@(ctrl == "T20" && act == "Index" ? "active" : "")">
+                        Tienda
+                    </a>
+                    <a href='@Url.Action("Help", "T20")'
+                       class="@(ctrl == "T20" && act == "Help" ? "active" : "")">
+                        Ayuda
+                    </a>
+                </div>
+
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p>support@t20store.com</p>
+                    <p>Av. Dos de Mayo 1498</p>
+                </div>
+
+                <div class="footer-social-media">
+                    <h3>Redes</h3>
+                    <p>¡Síguenos!</p>
+                    <div class="social-media-logos">
+                        <a href="https://www.facebook.com/" target="_blank">
+                            <img src="~/Images/Footer/facebook.png" alt="Facebook" />
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <img src="~/Images/Footer/instagram.png" alt="Instagram" />
+                        </a>
+                        <a href="https://x.com/" target="_blank">
+                            <img src="~/Images/Footer/twitter.png" alt="X/Twitter" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <p id="copyright">©T-20 | <b>All Rights Reserved</b> | 2025</p>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
