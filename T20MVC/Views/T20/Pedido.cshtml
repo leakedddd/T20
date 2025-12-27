@@ -56,38 +56,42 @@
                 </div>
 
                 <div class="form-field">
-                    <label>Número de tarjeta</label>
+                    <label>Número de tarjeta *</label>
                     <input type="text"
                            class="input card-input"
                            placeholder="1234 5678 9012 3456"
                            maxlength="19"
-                           id="cardNumber" />
+                           id="cardNumber"
+                           required />
                 </div>
 
                 <div class="form-field">
-                    <label>Nombre del titular</label>
+                    <label>Nombre del titular *</label>
                     <input type="text"
                            class="input"
                            placeholder="NOMBRE APELLIDO"
-                           style="text-transform: uppercase;" />
+                           style="text-transform: uppercase;"
+                           required />
                 </div>
 
                 <div class="form-row">
                     <div class="form-field">
-                        <label>Fecha de expiración</label>
+                        <label>Fecha de expiración *</label>
                         <input type="text"
                                class="input"
                                placeholder="MM/AA"
                                maxlength="5"
-                               id="cardExpiry" />
+                               id="cardExpiry"
+                               required />
                     </div>
                     <div class="form-field">
-                        <label>CVV</label>
+                        <label>CVV *</label>
                         <input type="text"
                                class="input"
                                placeholder="123"
                                maxlength="4"
-                               id="cardCVV" />
+                               id="cardCVV"
+                               required />
                     </div>
                 </div>
 
